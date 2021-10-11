@@ -260,7 +260,7 @@ export default {
     }
      this.priceOrderList[0].active =true;
     this.otype="all";
-    
+     this.otype="all";
       this.isSalesOrder = false;
     this.init();
     next();

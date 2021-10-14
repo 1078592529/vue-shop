@@ -34,7 +34,7 @@
               <img src="../../../assets/images/common/lazyImg.jpg" :data-echo="item.items && item.items[0].image" :alt="item.items && item.items[0].title">
             </div>
           </div>
-          <div class="goods-column" >
+          <div class="goods-column">
             <div class="goods-list" v-for="(item2,index2) in item.items.slice(1,3)" :key="index2" @click="$router.push('/goods/details?gid='+(item2.gid))">
               <div class="goods-list-title">{{item2.title}}</div>
               <div class="goods-list-tip">品质精挑</div>

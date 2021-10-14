@@ -5,13 +5,7 @@ import App from './App.vue'
 import router from './router';
 import store from './store';
 import config from './assets/js/conf/config';
-import utils  from "./assets/js/utils";
-import 'default-passive-events'
-
-  
-
- 
-
+import utils from './assets/js/utils';
 
 
 Vue.config.productionTip = false;

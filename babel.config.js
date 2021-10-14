@@ -9,10 +9,10 @@ module.exports = {
         allowTopLevelThis: true,
       },
     ],
-      ['import', {
-        libraryName: 'vant',
-        libraryDirectory: 'es',
-        style: true
-      }, 'vant'],
+    ['import', {
+      libraryName: 'vant',
+      libraryDirectory: 'es',
+      style: true
+    }, 'vant']
   ]
 }

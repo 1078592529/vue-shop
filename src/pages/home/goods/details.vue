@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class='details-header'>
-            <div class='back'></div>
+            <div class='back' @click="$router.go(-1)"></div>
             <div class='tab-wrap'>
-                <div class='tab-name active' @click="goPage('/goods/details')">商品</div>
-                <div class='tab-name' @click="goPage('/goods/details/content')">详情</div>
-                <div class='tab-name' @click="goPage('/goods/details/review')">评价</div>
+                <div :class="{'tab-name':true, active:true}"  @click="$router.replace('/goods/details?gid='+gid)">商品</div>
+                <div :class="{'tab-name':true, active:true}"  @click="$router.replace('/goods/details/content?gid='+gid)">详情</div>
+                <div :class="{'tab-name':true, active:true}"  @click="$router.replace('/goods/details/review?gid='+gid)">评价</div>
             </div>
             <div id="cart-icon" class='cart-icon' @click="goPage('/cart')">
                 <div class='spot'></div>
@@ -19,6 +19,11 @@
 
 <script>
     export default {
+        data(){
+return {
+      gid:this.$route.query.gid?this.$route.query.gid:"",
+}
+        },
         methods:{
             goPage(url){
                 this.$router.replace(url);

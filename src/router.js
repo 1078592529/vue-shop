@@ -48,9 +48,9 @@ let router = new Router({
       meta: { keepAlive: false },
     },
     {
-      path: "./ucenter",
+      path: "/ucenter",
       name: "ucenter",
-      component: () => import("./pages/home/login"),
+      component: () => import("./pages/user/ucenter"),
     },
     {
       path: "/goods/classify",
@@ -64,20 +64,41 @@ let router = new Router({
           component: () => import("./pages/home/goods/classify_item"),
           meta: { title: "商品分类" },
         },
-
-      ]
+      ],
     },
     {
-      path:"/skip",
-      name:"skip",
-      component:()=>import('./pages/skip')
+      path: "/skip",
+      name: "skip",
+      component: () => import("./pages/skip"),
     },
     {
-      path:"/goods/search",
-      name:"goods-search",
-      component:()=>import('./pages/home/goods/search')
-    }
-
+      path: "/goods/search",
+      name: "goods-search",
+      component: () => import("./pages/home/goods/search"),
+    },
+    {
+      path: "/goods/details",
+      name: "goods-details",
+      component: () => import("./pages/home/goods/details"),
+      redirect:"/goods/details/item",
+      children: [
+        {
+          path: "item",
+          name: "goods-item",
+          component: () => import("./pages/home/goods/details_item"),
+        },
+        {
+            path: "content",
+            name: "goods-content",
+            component: () => import("./pages/home/goods/details_content"),
+          },
+          {
+            path: "review",
+            name: "goods-review",
+            component: () => import("./pages/home/goods/details_review"),
+          },
+      ],
+    },
   ],
 });
 router.beforeEach((to, from, next) => {
@@ -91,6 +112,4 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-// 捕获router.push异常
-
 export default router;

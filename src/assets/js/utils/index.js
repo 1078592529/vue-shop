@@ -1,4 +1,5 @@
-import echo from "../libs/echo.min";
+import echo from '../libs/echo';
+
 function lazyImg(){
     echo.init({
         offset : 100,//可是区域多少像素可以被加载
@@ -6,6 +7,6 @@ function lazyImg(){
     });
 }
 
-export default{
+export default {
     lazyImg
 }

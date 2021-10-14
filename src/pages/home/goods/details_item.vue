@@ -33,7 +33,7 @@
             <div class='btn fav'>收藏</div>
             <div class='btn cart'>加入购物车</div>
         </div>
-        <div class='mask hide'></div>
+        <div class='mask' v-show="false"></div>
         <div ref="cart-panel" class='cart-panel down'>
             <div ref="goods-info" class='goods-info'>
                 <div class='close-panel-wrap'>
@@ -124,7 +124,7 @@
     .cart-panel .close-panel-wrap .line{width:1px;height:0.72rem;background-color:#FFFFFF;position:absolute;z-index:1;left:0.05rem;bottom:0.05rem;}
     .cart-panel .close-panel-wrap .close{width:0.4rem;height:0.4rem;background-image:url('../../../assets/images/home/goods/x.png');background-size:100%;background-repeat: no-repeat;background-position: center;position:absolute;left:-0.14rem;top:0.1rem;z-index:1;}
 
-    .cart-panel .attr-wrap{width:auto;max-height:3.5rem;padding-left:0.2rem;background-color:#FFFFFF;overflow-y: scroll;overflow-scrolling: touch;-webkit-overflow-scrolling: touch;}
+    .cart-panel .attr-wrap{width:auto;max-height:3.5rem;padding-left:0.2rem;background-color:#FFFFFF;overflow-y: scroll;-webkit-overflow-scrolling: touch;-webkit-overflow-scrolling: touch;}
     .cart-panel .attr-wrap .attr-list{width:100%;height:auto;margin-top:0.2rem;}
     .cart-panel .attr-list .attr-name{width:auto;font-size:0.32rem;}
     .cart-panel .attr-list .val-wrap{width:auto;margin-top:0.2rem;display:flex;display:-webkit-flex;flex-wrap: wrap;-webkit-flex-wrap: wrap;}

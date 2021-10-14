@@ -84,7 +84,7 @@ export default {
       },
     ],
     searchData: [],
-    cid:""
+    cid: "",
   },
   mutations: {
     //设置历史记录关键词
@@ -166,13 +166,17 @@ export default {
       state.searchData = payload.searchData;
     },
     //增加分页数据
-    ["SET_SEARCH_DATA_PAGE"](state,payload){
-      if(payload.searchData.length>0){
-          for(let i=0;i<payload.searchData.length;i++){
-              state.searchData.push(payload.searchData[i]);
-          }
+    ["SET_SEARCH_DATA_PAGE"](state, payload) {
+      if (payload.searchData.length > 0) {
+        for (let i = 0; i < payload.searchData.length; i++) {
+          state.searchData.push(payload.searchData[i]);
+        }
       }
-  },
+    },
+    //设置商品分类
+    ["SET_CID"](state, payload) {
+      state.cid = payload.cid;
+    },
   },
   actions: {
     //获取热门关键词
@@ -205,6 +209,9 @@ export default {
           payload.index,
           conText.rootState.goods.classifys[payload.index]
         );
+        conText.commit("SET_CID", {
+          cid: conText.rootState.goods.classifys[payload.index].cid,
+        });
       }
     },
     //获取商品搜索结果
@@ -223,7 +230,7 @@ export default {
     },
 
     getSearchPage(conText, payload) {
-      getSearchData(payload).then(res=>{
+      getSearchData(payload).then((res) => {
         //console.log(res);
         if (res.code === 200) {
           conText.commit("SET_SEARCH_DATA_PAGE", { searchData: res.data });

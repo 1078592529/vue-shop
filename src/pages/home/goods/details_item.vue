@@ -2,32 +2,35 @@
   <div class="page">
     <div ref="swpier-wrap" class='swpier-wrap swiper-container'>
       <div class="swiper-wrapper">
-        <div class="swiper-slide"><img src="//vueshop.glbuys.com/uploadfiles/1524556409.jpg" alt="" /></div>
-        <div class="swiper-slide"><img src="//vueshop.glbuys.com/uploadfiles/1524556419.jpg" alt="" /></div>
+        <div class="swiper-slide" v-for="(item,index) in details.images" :key="index"><img :src="item" alt="" /></div>
+
       </div>
       <div ref="swiper-pagination" class="swiper-pagination"></div>
     </div>
     <div class='goods-ele-main'>
-      <div class='goods-title'>高跟鞋女2018新款春季单鞋仙女甜美链子尖头防水台细跟女鞋一字带</div>
-      <div class='price'>¥288</div>
+      <div class='goods-title'>{{details.title}}</div>
+      <div class='price'>¥{{details.price}}</div>
       <ul class='sales-wrap'>
-        <li>快递：20元</li>
-        <li>月销量20件</li>
+        <li>快递：{{details.freight}}元</li>
+        <li>月销量{{details.sales}}件</li>
       </ul>
     </div>
     <div class='reviews-main'>
-      <div class="reviews-title">商品评价（20）</div>
-      <div class='reviews-wrap'>
-        <div class='reviews-list'>
-          <div class='uinfo'>
-            <div class='head'><img alt="" src="//vueshop.glbuys.com/uploadfiles/1524556409.jpg" /></div>
-            <div class='nickname'>张三</div>
+      <div class="reviews-title">商品评价（{{total}}）</div>
+      <div v-show="reviews.length>0">
+        <div class='reviews-wrap'>
+          <div class='reviews-list' v-for="(item,index) in reviews" :key="index">
+            <div class='uinfo'>
+              <div class='head'><img alt="" src="../../../assets/images/common/lazyImg.jpg" :data-echo="item.head" /></div>
+              <div class='nickname'>{{item.nickname}}</div>
+            </div>
+            <div class='reviews-content' v-html="item.content"></div>
+            <div class='reviews-date'>{{item.times}}</div>
           </div>
-          <div class='reviews-content'>评价内容</div>
-          <div class='reviews-date'>2019-03-10</div>
         </div>
+        <div class='reviews-more' @click="$router.replace('/goods/details/review?gid'+gid)">查看更多评价</div>
       </div>
-      <div class='reviews-more'>查看更多评价</div>
+      <div class="no-data" v-show="reviews.length<=0">暂无评价！</div>
     </div>
     <div class='bottom-btn-wrap'>
       <div class='btn fav'>收藏</div>
@@ -42,12 +45,12 @@
           <div class='close' @click="hidePanel()"></div>
         </div>
         <div ref="goods-img" class='goods-img'>
-          <img src="//vueshop.glbuys.com/uploadfiles/1524556409.jpg" alt="" />
+          <img :src="details.images && details.images[0]" alt="" />
         </div>
         <div class='goods-wrap'>
-          <div class='goods-title'>高跟鞋女2018新款春季单鞋仙女甜美链子尖头防水台细跟女鞋一字带</div>
-          <div class='price'>¥29</div>
-          <div class='goods-code'>商品编码:23123</div>
+          <div class='goods-title'>{{details.title}}</div>
+          <div class='price'>¥{{details.price}}</div>
+          <div class='goods-code'>商品编码:{{gid}}</div>
         </div>
       </div>
       <div class='attr-wrap'>
@@ -72,38 +75,62 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { mapState, mapMutations } from "vuex";
+import Vue from "vue";
+import { mapState, mapMutations, mapActions } from "vuex";
 import Swiper from "../../../assets/js/libs/swiper";
-import { Toast } from 'vant';
-import TweenMax from '../../../assets/js/libs/TweenMax'
-Vue.use(Toast)
+import { Toast } from "vant";
+import TweenMax from "../../../assets/js/libs/TweenMax";
+Vue.use(Toast);
 export default {
   data() {
     return {
       isPanel: false,
       amount: 1,
+      gid: this.$route.query.gid ? this.$route.query.gid : "",
     };
   },
-  created(){
-this.isMove=true
+  created() {
+    this.isMove = true;
+    this.getDetails({
+      gid: this.gid,
+      success: () => {
+        this.$nextTick(() => {
+          new Swiper(this.$refs["swpier-wrap"], {
+            autoplay: 3000,
+            pagination: this.$refs["swiper-pagination"],
+            paginationClickable: true,
+            autoplayDisableOnInteraction: false,
+          });
+        });
+      },
+    });
+    this.getSpec({ gid: this.gid });
+    this.getReviews({
+      gid: this.gid,
+      success: () => {
+        this.$nextTick(() => {
+          this.$utils.lazyImg();
+        });
+      },
+    });
   },
   computed: {
     ...mapState({
       attrs: (state) => state.goods.attrs,
+      details: (state) => state.goods.details,
+      total: (state) => state.goodsReview.total,
+      reviews: (state) => state.goodsReview.reviews,
     }),
   },
-  mounted() {
-    new Swiper(this.$refs["swpier-wrap"], {
-      autoplay: 3000,
-      pagination: this.$refs["swiper-pagination"],
-      paginationClickable: true,
-      autoplayDisableOnInteraction: false,
-    });
-  },
+  mounted() {},
   methods: {
     ...mapMutations({
       SELECT_ATTR: "goods/SELECT_ATTR",
+    }),
+    ...mapActions({
+      getDetails: "goods/getDetails",
+      getSpec: "goods/getSpec",
+      getReviews: "goodsReview/getReviews",
     }),
     //显示属性面板
     showPanel() {
@@ -111,10 +138,9 @@ this.isMove=true
     },
     //隐藏属性面板
     hidePanel() {
-        if(this.isMove){
-this.isPanel = false;
-        }
-      
+      if (this.isMove) {
+        this.isPanel = false;
+      }
     },
     //设置数量
     setAmount(e) {
@@ -130,44 +156,52 @@ this.isPanel = false;
       if (this.attrs.length > 0) {
         let isActive = false;
         for (let i = 0; i < this.attrs.length; i++) {
-            isActive = false;
+          isActive = false;
           for (let j = 0; j < this.attrs[i].values.length; j++) {
             if (this.attrs[i].values[j].active) {
               isActive = true;
               break;
             }
           }
-          console.log(i, isActive);
-          if(!isActive){
-              Toast('请选择'+this.attrs[i].title)
-              break;
+          //console.log(i, isActive);
+          if (!isActive) {
+            Toast("请选择" + this.attrs[i].title);
+            break;
           }
         }
-        if(isActive){
-           this.addCart()
+        if (isActive) {
+          this.addCart();
         }
       }
     },
     //添加购物车
-    addCart(){
-        if(this.isMove){
-            this.isMove=false;
-            let goodsImg=this.$refs['goods-img'],goodsInfo=this.$refs["goods-info"];
-            let cloneImg=goodsImg.cloneNode(true);
-            let cartIcon=document.getElementById("cart-icon")
-            goodsInfo.appendChild(cloneImg);
-            let cartTop=window.innerHeight-this.$refs['cart-panel'].offsetHeight;
-            cloneImg.style.cssText="position:absolute;z-index:10;left:0.2rem;top:0.2rem;width:0.4rem;height:0.4rem"
-             TweenMax.to(cloneImg, 2, {bezier:[{x:cloneImg.offsetLeft, y:-100},{x:cartIcon.offsetLeft, y:-cartTop}],onComplete:()=>{
+    addCart() {
+      if (this.isMove) {
+        this.isMove = false;
+        let goodsImg = this.$refs["goods-img"],
+          goodsInfo = this.$refs["goods-info"];
+        let cloneImg = goodsImg.cloneNode(true);
+        let cartIcon = document.getElementById("cart-icon");
+        goodsInfo.appendChild(cloneImg);
+        let cartTop =
+          window.innerHeight - this.$refs["cart-panel"].offsetHeight;
+        cloneImg.style.cssText =
+          "position:absolute;z-index:10;left:0.2rem;top:0.2rem;width:0.4rem;height:0.4rem";
+        TweenMax.to(cloneImg, 2, {
+          bezier: [
+            { x: cloneImg.offsetLeft, y: -100 },
+            { x: cartIcon.offsetLeft, y: -cartTop },
+          ],
+          onComplete: () => {
             cloneImg.remove();
-            this.isMove=true;
-             }});
-              TweenMax.to(cloneImg,0.2,{rotation:360,repeat:-1})
-        }
-           
-    }
-  }
-}
+            this.isMove = true;
+          },
+        });
+        TweenMax.to(cloneImg, 0.2, { rotation: 360, repeat: -1 });
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>

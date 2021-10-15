@@ -22,45 +22,45 @@ export default {
   data() {
     return {
       gid: this.$route.query.gid ? this.$route.query.gid : "",
-      itemStyle:true,
-      contentStyle:false,
-    reviewStyle:false
+      itemStyle: true,
+      contentStyle: false,
+      reviewStyle: false,
     };
   },
-  created(){
-this.changeTabStyle(this.$route.name);
+  created() {
+    this.changeTabStyle(this.$route.name);
   },
   methods: {
-   changeTabStyle(name){
-switch(name){
-    case "goods-item":
-        this.itemStyle=true;
-        this.contentStyle=false;
-        this.reviewStyle=false;
-        break;
-    case "goods-content":
-        this.itemStyle=false;
-        this.contentStyle=true;
-        this.reviewStyle=false;
-        break;
-    case "goods-review":
-        this.itemStyle=false;
-        this.contentStyle=false;
-        this.reviewStyle=true;
-        break;
-    default:
-        this.itemStyle=true;
-        this.contentStyle=true;
-        this.reviewStyle=true;
-        break;
-}
-   }
+    changeTabStyle(name) {
+      switch (name) {
+        case "goods-item":
+          this.itemStyle = true;
+          this.contentStyle = false;
+          this.reviewStyle = false;
+          break;
+        case "goods-content":
+          this.itemStyle = false;
+          this.contentStyle = true;
+          this.reviewStyle = false;
+          break;
+        case "goods-review":
+          this.itemStyle = false;
+          this.contentStyle = false;
+          this.reviewStyle = true;
+          break;
+        default:
+          this.itemStyle = true;
+          this.contentStyle = true;
+          this.reviewStyle = true;
+          break;
+      }
+    },
   },
-  beforeRouteUpdate(to,from,next){
-console.log(to);
-this.changeTabStyle(to.name);
-next();
-  }
+  beforeRouteUpdate(to, from, next) {
+    //console.log(to);
+    this.changeTabStyle(to.name);
+    next();
+  },
 };
 </script>
 

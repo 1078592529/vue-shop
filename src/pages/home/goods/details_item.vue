@@ -28,7 +28,7 @@
             <div class='reviews-date'>{{item.times}}</div>
           </div>
         </div>
-        <div class='reviews-more' @click="$router.replace('/goods/details/review?gid'+gid)">查看更多评价</div>
+          <div class='reviews-more' @click="$router.replace('/goods/details/review?gid='+gid)">查看更多评价</div>
       </div>
       <div class="no-data" v-show="reviews.length<=0">暂无评价！</div>
     </div>
@@ -126,6 +126,7 @@ export default {
   methods: {
     ...mapMutations({
       SELECT_ATTR: "goods/SELECT_ATTR",
+      ADD_ITEM:"cart/ADD_ITEM"
     }),
     ...mapActions({
       getDetails: "goods/getDetails",
@@ -195,6 +196,39 @@ export default {
           onComplete: () => {
             cloneImg.remove();
             this.isMove = true;
+            //加入购物车
+            let attrs = [],
+              param = [];
+            if (this.attrs.length > 0) {
+              for (let i = 0; i < this.attrs.length; i++) {
+                param=[];
+                for (let j = 0; j < this.attrs[i].values.length; j++) {
+                  if (this.attrs[i].values[j].active) {
+                    param.push({
+                      paramid: this.attrs[i].values[j].vid,
+                      title: this.attrs[i].values[j].value,
+                    });
+                  }
+                }
+                attrs.push({
+                  attrid: this.attrs[i].attrid,
+                  title: this.attrs[i].title,
+                  param: param,
+                });
+              }
+            }
+            let cartData = {
+              gid: this.gid,
+              title: this.details.title,
+              amount: this.amount,
+              price: this.details.price,
+              img: this.details.images[0],
+              checked: true,
+              freight: this.details.freight,
+              attrs: attrs,
+            };
+            this.ADD_ITEM({cartData:cartData});
+            //console.log(cartData);
           },
         });
         TweenMax.to(cloneImg, 0.2, { rotation: 360, repeat: -1 });

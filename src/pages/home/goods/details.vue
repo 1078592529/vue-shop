@@ -7,8 +7,8 @@
         <div :class="{'tab-name':true, active:contentStyle}" @click="$router.replace('/goods/details/content?gid='+gid)">详情</div>
         <div :class="{'tab-name':true, active:reviewStyle}" @click="$router.replace('/goods/details/review?gid='+gid)">评价</div>
       </div>
-      <div id="cart-icon" class='cart-icon' @click="goPage('/cart')">
-        <div class='spot'></div>
+      <div id="cart-icon" class='cart-icon' @click="$router.push('/cart?from=goods_details')">
+        <div class='spot' v-show="$store.state.cart.cartData.length>0"></div>
       </div>
     </div>
     <div class="sub-page">
@@ -50,14 +50,13 @@ export default {
           break;
         default:
           this.itemStyle = true;
-          this.contentStyle = true;
-          this.reviewStyle = true;
+          this.contentStyle = false;
+          this.reviewStyle = false;
           break;
       }
     },
   },
   beforeRouteUpdate(to, from, next) {
-    //console.log(to);
     this.changeTabStyle(to.name);
     next();
   },

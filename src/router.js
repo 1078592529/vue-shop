@@ -48,6 +48,12 @@ let router = new Router({
       meta: { keepAlive: false },
     },
     {
+      path: "/reg",
+      name: "reg",
+      component: () => import("./pages/home/reg"),
+      meta: { keepAlive: false },
+    },
+    {
       path: "/ucenter",
       name: "ucenter",
       component: () => import("./pages/user/ucenter"),

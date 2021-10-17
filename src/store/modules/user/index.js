@@ -4,7 +4,8 @@ import {
   safeOutLoginData,
   checkVCodeData,
   isRegData,
-  regUserData
+  regUserData,
+  getUserInfoData,
 } from "../../../api/user";
 let modules = {
   namespaced: true,
@@ -13,6 +14,8 @@ let modules = {
     nickname: localStorage["nickname"] ? localStorage["nickname"] : "",
     isLogin: localStorage["isLogin"] ? Boolean(localStorage["isLogin"]) : false,
     authToken: localStorage["authToken"] ? localStorage["authToken"] : "",
+    head:"",
+    points:0
   },
   mutations: {
     ["SET_LOGIN"](state, payload) {
@@ -30,11 +33,19 @@ let modules = {
       state.nickname = "";
       state.isLogin = false;
       state.authToken = "";
+      state.points=0;
+      state.head="";
       localStorage.removeItem("uid");
       localStorage.removeItem("nickname");
       localStorage.removeItem("isLogin");
       localStorage.removeItem("authToken");
+      localStorage.removeItem("cartData");
     },
+    ["SET_USER_INFO"](state,payload){
+state.head=payload.head;
+state.points=payload.points;
+state.nickname=payload.nickname
+    }
   },
   actions: {
     //会员登录
@@ -88,14 +99,23 @@ let modules = {
       });
     },
     //注册会员
-    regUser(conText,payload){
-        regUserData(payload).then(res=>{
-            //console.log(res)
-            if(payload.success){
-                payload.success(res);
-            }
-        })
-    }
+    regUser(conText, payload) {
+      regUserData(payload).then((res) => {
+        //console.log(res)
+        if (payload.success) {
+          payload.success(res);
+        }
+      });
+    },
+    //获取会员信息
+    getUserInfo(conText) {
+      getUserInfoData(conText.state.uid).then((res) => {
+        console.log(res);
+        if(res.code===200){
+          conText.commit("SET_USER_INFO",{head:res.data.head,points:res.data.points,nickname:res.data.nickname})
+        }
+      });
+    },
   },
 };
 export default modules;

@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-const originalReplace = Router.prototype.replace;
-Router.prototype.replace = function replace(location) {
-  return originalReplace.call(this, location).catch(err => err);
-}
-
 Vue.use(Router);
 
 let router=new Router({
@@ -109,7 +104,16 @@ let router=new Router({
                     component:()=>import("./pages/home/goods/details_review")
                 }
             ]
-        }
+        },
+        {
+            path:"/order",
+            name:"order",
+            component:()=>import("./pages/home/order/index"),
+            meta:{auth:true,title:"确认订单"}
+        },
+       
+     
+        
     ]
 });
 router.beforeEach((to,from,next)=>{

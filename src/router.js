@@ -111,6 +111,25 @@ let router=new Router({
             component:()=>import("./pages/home/order/index"),
             meta:{auth:true,title:"确认订单"}
         },
+        {
+            path:"/address",
+            name:"address",
+            component:()=>import("./pages/home/address/index"),
+            meta:{auth:true,title:"选择收货地址"}
+        },
+        {
+            path:"/address/add",
+            name:"address-add",
+            component:()=>import("./pages/home/address/add"),
+            meta:{auth:true,title:"添加收货地址"}
+        },
+        {
+            path:"/address/mod",
+            name:"address-mod",
+            component:()=>import("./pages/home/address/add"),
+            meta:{auth:true,title:"修改收货地址"}
+        }
+       
        
      
         

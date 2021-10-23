@@ -126,7 +126,7 @@ let router=new Router({
         {
             path:"/address/mod",
             name:"address-mod",
-            component:()=>import("./pages/home/address/add"),
+            component:()=>import("./pages/home/address/mod"),
             meta:{auth:true,title:"修改收货地址"}
         }
        

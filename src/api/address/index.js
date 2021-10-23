@@ -15,3 +15,12 @@ export function delAddressData(params){
 export function addAddressData(params){
     return request(config.baseApi+"/user/address/add?token="+config.token,"post",params);
 }
+//收货地址详情
+export function getAddressInfoData(params){
+    return request(config.baseApi+"/user/address/info?uid="+params.uid+"&aid="+params.aid+"&token="+config.token);
+}
+
+//修改收货地址
+export function modAddressData(params){
+    return request(config.baseApi+"/user/address/mod?token="+config.token,"post",params);
+}

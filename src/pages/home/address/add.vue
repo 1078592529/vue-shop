@@ -56,6 +56,9 @@ export default {
       area: "",
     };
   },
+  mounted() {
+    document.title = this.$route.meta.title;
+  },
   created() {
     this.isSubmit = true;
   },

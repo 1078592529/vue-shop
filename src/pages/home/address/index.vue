@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class='handle-wrap'>
-                        <div class='edit' @click="$router.push('/address/mod')"></div>
+                        <div class='edit' @click="$router.push('/address/mod?aid='+item.aid)"></div>
                         <div class='del' @click="delAddress(index,item.aid)"></div>
                     </div>
                 </div>

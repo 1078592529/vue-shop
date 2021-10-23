@@ -1,4 +1,4 @@
-import {getAddressData,delAddressData,addAddressData} from "../../../api/address";
+import {getAddressData,delAddressData,addAddressData,getAddressInfoData,modAddressData} from "../../../api/address";
 export default {
     namespaced:true,
     state:{
@@ -33,6 +33,24 @@ export default {
         //添加收货地址
         addAddress(conText,payload){
             addAddressData({uid:conText.rootState.user.uid,...payload}).then(res=>{
+                if(payload.success){
+                    payload.success(res);
+                }
+            })
+        },
+        //收货地址详情
+        getAddressInfo(conText,payload){
+            getAddressInfoData({uid:conText.rootState.user.uid,...payload}).then(res=>{
+                if(res.code===200){
+                    if(payload.success){
+                        payload.success(res);
+                    }
+                }
+            })
+        },
+        //修改收货地址
+        modAddress(conText,payload){
+            modAddressData({uid:conText.rootState.user.uid,...payload}).then(res=>{
                 if(payload.success){
                     payload.success(res);
                 }

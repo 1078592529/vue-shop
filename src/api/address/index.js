@@ -24,3 +24,7 @@ export function getAddressInfoData(params){
 export function modAddressData(params){
     return request(config.baseApi+"/user/address/mod?token="+config.token,"post",params);
 }
+//获取默认地址
+export function getDefaultAddressData(uid){
+    return request(config.baseApi+"/user/address/defaultAddress?uid="+uid+"&token="+config.token);
+}

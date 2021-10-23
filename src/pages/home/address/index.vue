@@ -7,7 +7,7 @@
                 <div class='address-nav-name-2' @click="$router.push('/address/add')">+添加收货地址</div>
             </div>
             <template v-show="address.length>0">
-                <div class='address-list' v-for="(item,index) in address" :key="index">
+              <div class='address-list' v-for="(item,index) in address" :key="index" @click="selectAddress(item.aid)">
                     <div class='address-info-wrap'>
                         <div class='check-mark' v-if="item.isdefault==='1'?true:false"></div>
                         <div :class="{'address-info':true, 'default':item.isdefault==='1'?true:false}">
@@ -19,8 +19,8 @@
                         </div>
                     </div>
                     <div class='handle-wrap'>
-                        <div class='edit' @click="$router.push('/address/mod?aid='+item.aid)"></div>
-                        <div class='del' @click="delAddress(index,item.aid)"></div>
+                      <div class='edit' @click.stop="$router.push('/address/mod?aid='+item.aid)"></div>
+                        <div class='del' @click.stop="delAddress(index,item.aid)"></div>
                     </div>
                 </div>
             </template>
@@ -55,6 +55,7 @@ export default {
       getAddress: "address/getAddress",
       asyncDelAddress: "address/delAddress",
     }),
+    //删除收货地址
     delAddress(index, aid) {
       Dialog.confirm({
         title: "",
@@ -66,6 +67,11 @@ export default {
         })
         .catch(() => {});
     },
+      //选择收货地址
+            selectAddress(aid){
+                sessionStorage['addsid']=aid;
+                this.$router.go(-1);
+            }
   },
 };
 </script>

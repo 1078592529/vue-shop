@@ -1,4 +1,4 @@
-import {getAddressData,delAddressData,addAddressData,getAddressInfoData,modAddressData} from "../../../api/address";
+import {getAddressData,delAddressData,addAddressData,getAddressInfoData,modAddressData,getDefaultAddressData} from "../../../api/address";
 export default {
     namespaced:true,
     state:{
@@ -53,6 +53,16 @@ export default {
             modAddressData({uid:conText.rootState.user.uid,...payload}).then(res=>{
                 if(payload.success){
                     payload.success(res);
+                }
+            })
+        },
+         //获取默认收货地址
+        getDefaultAddress(conText,payload){
+            getDefaultAddressData(conText.rootState.user.uid).then(res=>{
+                if(res.code===200){
+                    if(payload.success){
+                        payload.success(res);
+                    }
                 }
             })
         }

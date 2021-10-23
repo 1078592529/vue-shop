@@ -113,7 +113,7 @@ let modules = {
     //获取会员信息
     getUserInfo(conText) {
       getUserInfoData(conText.state.uid).then((res) => {
-        console.log(res);
+        //console.log(res);
         if (res.code === 200) {
           conText.commit("SET_USER_INFO", {
             head: res.data.head,

@@ -47,12 +47,13 @@ export default {
   },
   created() {
     this.timer = null;
+    this.isSubmit = true;
   },
   methods: {
     ...mapActions({
       checkVCode: "user/checkVCode",
       isReg: "user/isReg",
-      regUser:"user/regUser"
+      regUser: "user/regUser",
     }),
     //重新获取图文验证码
     changeVcode(e) {
@@ -95,13 +96,22 @@ export default {
         Toast("请输入密码");
         return;
       }
-      this.regUser({cellphone:this.cellphone,password:this.password,vcode:this.vcode,success:(res)=>{
-if(res.code===200){
-    this.$router.push('/login?from=reg')
-}else{
-    Toast(res.data)
-}
-      }})
+      if(this.isSubmit){
+        this.isSubmit=false;
+         this.regUser({
+        cellphone: this.cellphone,
+        password: this.password,
+        vcode: this.vcode,
+        success: (res) => {
+          if (res.code === 200) {
+            this.$router.push("/login?from=reg");
+          } else {
+            Toast(res.data);
+          }
+        },
+      });
+      }
+     
     },
     //获取短信验证码
     async getMsgCode() {

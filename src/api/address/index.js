@@ -10,3 +10,8 @@ export function getAddressData(uid){
 export function delAddressData(params){
     return request(config.baseApi+"/user/address/del?uid="+params.uid+"&aid="+params.aid+"&token="+config.token);
 }
+
+//添加收货地址
+export function addAddressData(params){
+    return request(config.baseApi+"/user/address/add?token="+config.token,"post",params);
+}

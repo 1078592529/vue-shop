@@ -1,31 +1,32 @@
 <template>
-  <div class="page">
-    <SubHeader title="选择收货地址"></SubHeader>
-    <div class='main'>
-      <div class='address-nav'>
-        <div class='address-nav-name-1'>配送地址</div>
-        <div class='address-nav-name-2' @click="$router.push('/address/add')">+添加收货地址</div>
-      </div>
-      <div class='address-list' v-for="(item,index) in address" :key="index">
-        <div class='address-info-wrap'>
-          <div class='check-mark' v-if="item.isdefault==='1'?true:false"></div>
-          <div :class="{'address-info':true, 'default':item.isdefault==='1'?true:false}">
-            <div class='person'><span>{{item.name}}</span><span>{{item.cellphone}}</span></div>
-            <div class='address'>
-              <span class='default' v-if="item.isdefault==='1'?true:false">默认</span>
-              <span class='text'>北京朝阳</span>
+    <div class="page">
+        <SubHeader title="选择收货地址"></SubHeader>
+        <div class='main'>
+            <div class='address-nav'>
+                <div class='address-nav-name-1'>配送地址</div>
+                <div class='address-nav-name-2' @click="$router.push('/address/add')">+添加收货地址</div>
             </div>
-          </div>
+            <template v-show="address.length>0">
+                <div class='address-list' v-for="(item,index) in address" :key="index">
+                    <div class='address-info-wrap'>
+                        <div class='check-mark' v-if="item.isdefault==='1'?true:false"></div>
+                        <div :class="{'address-info':true, 'default':item.isdefault==='1'?true:false}">
+                            <div class='person'><span>{{item.name}}</span><span>{{item.cellphone}}</span></div>
+                            <div class='address'>
+                                <span class='default' v-if="item.isdefault==='1'?true:false">默认</span>
+                                <span class='text'>{{item.province}}{{item.city}}{{item.area}}{{item.address}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='handle-wrap'>
+                        <div class='edit' @click="$router.push('/address/mod')"></div>
+                        <div class='del' @click="delAddress(index,item.aid)"></div>
+                    </div>
+                </div>
+            </template>
+            <div class="no-data" v-show="address.length<=0">您还没有添加收货地址！</div>
         </div>
-        <div class='handle-wrap'>
-          <div class='edit' @click="$router.push('/address/mod')"></div>
-          <div class='del' @click="delAddress(index,item.aid)"></div>
-        </div>
-      </div>
-
-      <div class="no-data" v-show="false">您还没有添加收货地址！</div>
     </div>
-  </div>
 </template>
 
 <script>

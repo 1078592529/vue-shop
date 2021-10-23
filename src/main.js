@@ -7,6 +7,15 @@ import store from './store';
 import config from './assets/js/conf/config';
 import utils from './assets/js/utils';
 
+ 
+import Router from 'vue-router'
+ 
+// 解决重复点击导航路由报错
+const originalReplace = Router.prototype.replace;
+Router.prototype.replace = function replace(location) {
+  return originalReplace.call(this, location).catch(err => err);
+}
+
 
 Vue.config.productionTip = false;
 

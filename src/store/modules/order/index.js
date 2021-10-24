@@ -4,14 +4,16 @@ import {
     getMyOrderData,
     cancelOrderData,
     sureOrderData,
-    getOrderInfoData
+    getOrderInfoData,
+    getReviewOrderData
 } from "../../../api/order";
 export default {
     namespaced: true,
     state: {
         orderNum: "",
         orders: [],
-        orderInfo: {}
+        orderInfo: {},
+        reviewOrders:[]
     },
     mutations: {
         ["SET_ORDERNUM"](state, payload) {
@@ -37,6 +39,14 @@ export default {
         ["SET_ORDER_INFO"](state, payload) {
             state.orderInfo = payload.orderInfo;
             //console.log(state.orderInfo)
+        },
+         //设置待评价订单
+         ["SET_REVIEW_ORDERS"](state,payload){
+            state.reviewOrders=payload.reviewOrders;
+        },
+        //设置待评价订单
+        ["SET_REVIEW_ORDERS_PAGE"](state,payload){
+            state.reviewOrders.push(...payload.reviewOrders);
         }
     },
     actions: {
@@ -151,6 +161,29 @@ export default {
                         }
                     
                     })
+                }
+            })
+        },
+          //待评价订单
+          getReviewOrder(conText,payload){
+            getReviewOrderData({uid:conText.rootState.user.uid,...payload}).then(res=>{
+                let pageNum=0;
+                if(res.code===200){
+                    pageNum=res.pageinfo.pagenum;
+                    conText.commit("SET_REVIEW_ORDERS",{reviewOrders:res.data});
+                }else{
+                    pageNum=0;
+                    conText.commit("SET_REVIEW_ORDERS",{reviewOrders:[]});
+                }
+                if(payload.success){
+                    payload.success(pageNum);
+                }
+            })
+        },
+        getReviewOrderPage(conText,payload){
+            getReviewOrderData({uid:conText.rootState.user.uid,...payload}).then(res=>{
+                if(res.code===200){
+                    conText.commit("SET_REVIEW_ORDERS_PAGE",{reviewOrders:res.data});
                 }
             })
         }

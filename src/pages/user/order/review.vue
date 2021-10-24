@@ -1,65 +1,51 @@
 <template>
     <div>
-        <div class='order-list'>
+        <div class='order-list' v-for="(item,index) in reviewOrders" :key="index" @click="$router.push('/user/order/details?ordernum='+item.ordernum)">
             <div class='ordernum-wrap'>
-                <div class='ordernum'>订单编号：123456</div>
-                <div class='status'>待付款</div>
+                <div class='ordernum'>订单编号：{{item.ordernum}}</div>
+                <div class='status'>{{item.status==='0'?'待付款':item.status==='1'?'待收货':'已收货'}}</div>
             </div>
-            <div class='item-list'>
-                <div class='image'><img src="../../../assets/images/common/lazyImg.jpg" alt=""/></div>
-                <div class='title'>高跟鞋女2018新款春季单鞋仙女甜美链子尖头防水台细跟女鞋一字带</div>
-                <div class='amount'>x 2</div>
-                <div class='status-btn'>评价</div>
-            </div>
-            <div class='item-list'>
-                <div class='image'><img src="../../../assets/images/common/lazyImg.jpg" alt=""/></div>
-                <div class='title'>高跟鞋女2018新款春季单鞋仙女甜美链子尖头防水台细跟女鞋一字带</div>
-                <div class='amount'>x 2</div>
-                <div class='status-btn'>评价</div>
-            </div>
-        </div>
-        <div class='order-list'>
-            <div class='ordernum-wrap'>
-                <div class='ordernum'>订单编号：123456</div>
-                <div class='status'>待付款</div>
-            </div>
-            <div class='item-list'>
-                <div class='image'><img src="../../../assets/images/common/lazyImg.jpg" alt=""/></div>
-                <div class='title'>高跟鞋女2018新款春季单鞋仙女甜美链子尖头防水台细跟女鞋一字带</div>
-                <div class='amount'>x 2</div>
-                <div class='status-btn'>评价</div>
-            </div>
-            <div class='item-list'>
-                <div class='image'><img src="../../../assets/images/common/lazyImg.jpg" alt=""/></div>
-                <div class='title'>高跟鞋女2018新款春季单鞋仙女甜美链子尖头防水台细跟女鞋一字带</div>
-                <div class='amount'>x 2</div>
-                <div class='status-btn'>评价</div>
-            </div>
-        </div>
-        <div class='order-list'>
-            <div class='ordernum-wrap'>
-                <div class='ordernum'>订单编号：123456</div>
-                <div class='status'>待付款</div>
-            </div>
-            <div class='item-list'>
-                <div class='image'><img src="../../../assets/images/common/lazyImg.jpg" alt=""/></div>
-                <div class='title'>高跟鞋女2018新款春季单鞋仙女甜美链子尖头防水台细跟女鞋一字带</div>
-                <div class='amount'>x 2</div>
-                <div class='status-btn'>评价</div>
-            </div>
-            <div class='item-list'>
-                <div class='image'><img src="../../../assets/images/common/lazyImg.jpg" alt=""/></div>
-                <div class='title'>高跟鞋女2018新款春季单鞋仙女甜美链子尖头防水台细跟女鞋一字带</div>
-                <div class='amount'>x 2</div>
-                <div class='status-btn'>评价</div>
+            <div class='item-list' v-for="(item2,index2) in item.goods" :key="index2">
+                <div class='image'><img :data-echo="item2.image" src="../../../assets/images/common/lazyImg.jpg" alt=""/></div>
+                <div class='title'>{{item2.title}}</div>
+                <div class='amount'>x {{item2.amount}}</div>
+                <div class='status-btn'>{{item2.isreview==='0'?'评价':"追加评价"}}</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapActions,mapState} from "vuex";
+    import UpRefresh from '../../../assets/js/libs/uprefresh';
     export default {
-        name: "order-reivew"
+        name: "order-reivew",
+        methods:{
+            ...mapActions({
+                getReviewOrder:"order/getReviewOrder",
+                getReviewOrderPage:"order/getReviewOrderPage"
+            })
+        },
+        computed:{
+            ...mapState({
+                reviewOrders:state=>state.order.reviewOrders
+            })
+        },
+        created(){
+            this.$utils.safeUser(this);
+            this.pullUp=new UpRefresh();
+            this.getReviewOrder({page:1,success:(pageNum)=>{
+                    this.$nextTick(()=> {
+                        this.$utils.lazyImg();
+                    });
+                    this.pullUp.init({"curPage":1,"maxPage":parseInt(pageNum),"offsetBottom":100},(page)=>{
+                        this.getReviewOrderPage({page:page});
+                    });
+                }})
+        },
+        beforeDestroy() {
+            this.pullUp.uneventSrcoll();
+        }
     }
 </script>
 

@@ -31,3 +31,7 @@ export function sureOrderData(data) {
 export function getOrderInfoData(data) {
     return request(config.baseApi + "/user/myorder/desc?uid=" + data.uid + "&ordernum=" + data.ordernum + "&token=" + config.token)
 }
+//待评价订单
+export function getReviewOrderData(data){
+    return request(config.baseApi+"/user/myorder/reviewOrder?uid="+data.uid+"&page="+data.page+"&token="+config.token);
+}

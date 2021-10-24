@@ -10,22 +10,22 @@
     </div>
     <div class='order-name-wrap'>
       <div class='order-name'>全部订单</div>
-      <div class='show-order'>查看全部订单 &gt;</div>
+      <div class='show-order' @click="$router.push('/user/order')">查看全部订单 &gt;</div>
     </div>
     <div class='order-status-wrap'>
-      <div class='item'>
-        <div class='icon wait'></div>
-        <div class='text'>待支付</div>
-      </div>
-      <div class='item'>
-        <div class='icon take'></div>
-        <div class='text'>待收货</div>
-      </div>
-      <div class='item'>
-        <div class='icon comment'></div>
-        <div class='text'>待评价</div>
-      </div>
-    </div>
+            <div class='item' @click="$router.push('/user/order?status=0')">
+                <div class='icon wait'></div>
+                <div class='text'>待支付</div>
+            </div>
+            <div class='item' @click="$router.push('/user/order?status=1')">
+                <div class='icon take'></div>
+                <div class='text'>待收货</div>
+            </div>
+            <div class='item' @click="$router.push('/user/order/review?status=2')">
+                <div class='icon comment'></div>
+                <div class='text'>待评价</div>
+            </div>
+        </div>
     <div class="menu-list-wrap">
       <ul @click="goPage('/profile')">
         <li>个人资料</li>

@@ -134,11 +134,38 @@ let router=new Router({
             name:"address-mod",
             component:()=>import("./pages/home/address/mod"),
             meta:{auth:true,title:"修改收货地址"}
+        },
+        {
+            path:"/user/order",
+            name:"my-order",
+            component:()=>import("./pages/user/order"),
+            redirect:"/user/order/list",
+            meta:{auth:true},
+            children:[
+                {
+                    path:"list",
+                    name:"order-list",
+                    component:()=>import("./pages/user/order/list"),
+                    meta:{auth:true}
+                },
+                {
+                    path:"review",
+                    name:"order-review",
+                    component:()=>import("./pages/user/order/review"),
+                    meta:{auth:true}
+                }
+            ]
+        },
+        {
+            path:"/user/order/details",
+            name:"order-details",
+            component:()=>import("./pages/user/order/details")
+        },
+        {
+            path:"/user/order/add_review",
+            name:"order-add-review",
+            component:()=>import("./pages/user/order/add_review")
         }
-       
-       
-     
-        
     ]
 });
 router.beforeEach((to,from,next)=>{

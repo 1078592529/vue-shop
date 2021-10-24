@@ -1,16 +1,16 @@
 <template>
-   <div class="page">
-        <SubHeader :title="headerTitle"></SubHeader>
-        <OrderTags :status="status"></OrderTags>
-        <div class='main'>
-            <router-view></router-view>
-        </div>
+  <div class="page">
+    <SubHeader :title="headerTitle"></SubHeader>
+    <OrderTags :status="status"></OrderTags>
+    <div class='main'>
+      <router-view></router-view>
     </div>
+  </div>
 </template>
 
 <script>
 import SubHeader from "../../../components/sub_header";
-    import OrderTags from "../../../components/order_tags";
+import OrderTags from "../../../components/order_tags";
 
 export default {
   name: "my-order",
@@ -22,7 +22,7 @@ export default {
   },
   components: {
     SubHeader,
-     OrderTags
+    OrderTags,
   },
   methods: {
     getTitle() {
@@ -31,15 +31,15 @@ export default {
           this.headerTitle = "全部订单";
           document.title = this.headerTitle;
           break;
-           case "0":
+        case "0":
           this.headerTitle = "待付款";
           document.title = this.headerTitle;
           break;
-           case "1":
+        case "1":
           this.headerTitle = "待收货";
           document.title = this.headerTitle;
           break;
-           case "2":
+        case "2":
           this.headerTitle = "待评价";
           document.title = this.headerTitle;
           break;
@@ -53,10 +53,13 @@ export default {
   mounted() {
     this.getTitle();
   },
-  beforeRouteUpdate(to,from,next){
-      this.status=to.query.status;
-      this.getTitle()
-next();
+  beforeRouteUpdate(to, from, next) {
+    this.status = to.query.status;
+    this.getTitle();
+    next();
+  },
+  created(){
+      this.$utils.safeUser(this);
   }
 };
 </script>

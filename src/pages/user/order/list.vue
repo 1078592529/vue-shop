@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class='order-list' v-for="(item,index) in orders" :key="index">
+    <div class='order-list' v-for="(item,index) in orders" :key="index" @click="$router.push('/user/order/details?ordernum='+item.ordernum)">
       <div class='ordernum-wrap'>
         <div class='ordernum'>订单编号：{{item.ordernum}}</div>
         <div class='status'>{{item.status==='0'?'待付款':item.status==='1'?'待收货':'已收货'}}</div>

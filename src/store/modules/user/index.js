@@ -40,6 +40,7 @@ let modules = {
       localStorage.removeItem("isLogin");
       localStorage.removeItem("authToken");
       localStorage.removeItem("cartData");
+      sessionStorage.removeItem("addsid");
     },
     ["SET_USER_INFO"](state, payload) {
       state.head = payload.head;
@@ -82,6 +83,7 @@ let modules = {
       }).then((res) => {
         // console.log(res);
         if (res.code != 200) {
+          conText.rootState.cart.cartData=[];
           conText.commit("OUT_LOGIN");
         }
         if (payload.success) {

@@ -95,6 +95,8 @@ export default {
       gid: this.gid,
       success: () => {
         this.$nextTick(() => {
+          //console.log(this.details.title)
+          document.title=this.details.title;
           new Swiper(this.$refs["swpier-wrap"], {
             autoplay: 3000,
             pagination: this.$refs["swiper-pagination"],

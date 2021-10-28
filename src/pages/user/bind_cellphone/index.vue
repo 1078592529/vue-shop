@@ -226,7 +226,7 @@
     }
 
     .main .input-wrap .code {
-        width: 69%;
+        width: 68%;
         height: 90%;
         font-size: 0.28rem;
         margin-left: 0.2rem;

@@ -44,3 +44,7 @@ export function updateUserInfoData(data){
 export function updateCellphoneData(data){
     return request(config.baseApi+"/user/myinfo/updatecellphone?token="+config.token,"post",data);
 }
+//修改密码
+export function updatePasswordData(data){
+return request(config.baseApi+"/user/myinfo/modpwd?token="+config.token,"post",data)
+}

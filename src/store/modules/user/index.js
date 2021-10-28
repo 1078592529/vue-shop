@@ -8,7 +8,8 @@ import {
   getUserInfoData,
   uploadHeadData,
   updateUserInfoData,
-  updateCellphoneData
+  updateCellphoneData,
+  updatePasswordData
 } from "../../../api/user";
 let modules = {
   namespaced: true,
@@ -151,13 +152,28 @@ let modules = {
         }
       })
     },
-       //修改手机号
-       updateCellphone(conText,payload){
-        updateCellphoneData({uid:conText.state.uid,...payload}).then(res=>{
-            if(payload.success){
-                payload.success(res);
-            }
-        })
+    //修改手机号
+    updateCellphone(conText, payload) {
+      updateCellphoneData({
+        uid: conText.state.uid,
+        ...payload
+      }).then(res => {
+        if (payload.success) {
+          payload.success(res);
+        }
+      })
+    },
+    //修改密码
+    updatePassword(conText, payload) {
+      updatePasswordData({
+        uid: conText.state.uid,
+        ...payload
+      }).then(res => {
+        //console.log(res);
+        if(payload.success){
+          payload.success(res)
+        }
+      })
     }
   },
 };

@@ -40,3 +40,7 @@ export function uploadHeadData(data){
 export function updateUserInfoData(data){
     return request(config.baseApi+"/user/myinfo/updateuser?token="+config.token,"post",data);
 }
+//修改手机号
+export function updateCellphoneData(data){
+    return request(config.baseApi+"/user/myinfo/updatecellphone?token="+config.token,"post",data);
+}

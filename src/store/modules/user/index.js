@@ -7,7 +7,8 @@ import {
   regUserData,
   getUserInfoData,
   uploadHeadData,
-  updateUserInfoData
+  updateUserInfoData,
+  updateCellphoneData
 } from "../../../api/user";
 let modules = {
   namespaced: true,
@@ -149,6 +150,14 @@ let modules = {
           payload.success(res);
         }
       })
+    },
+       //修改手机号
+       updateCellphone(conText,payload){
+        updateCellphoneData({uid:conText.state.uid,...payload}).then(res=>{
+            if(payload.success){
+                payload.success(res);
+            }
+        })
     }
   },
 };

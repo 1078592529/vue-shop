@@ -96,22 +96,21 @@ export default {
         Toast("请输入密码");
         return;
       }
-      if(this.isSubmit){
-        this.isSubmit=false;
-         this.regUser({
-        cellphone: this.cellphone,
-        password: this.password,
-        vcode: this.vcode,
-        success: (res) => {
-          if (res.code === 200) {
-            this.$router.push("/login?from=reg");
-          } else {
-            Toast(res.data);
-          }
-        },
-      });
+      if (this.isSubmit) {
+        this.isSubmit = false;
+        this.regUser({
+          cellphone: this.cellphone,
+          password: this.password,
+          vcode: this.vcode,
+          success: (res) => {
+            if (res.code === 200) {
+              this.$router.push("/login?from=reg");
+            } else {
+              Toast(res.data);
+            }
+          },
+        });
       }
-     
     },
     //获取短信验证码
     async getMsgCode() {

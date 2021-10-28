@@ -35,15 +35,15 @@
         <li>收货地址</li>
         <li></li>
       </ul>
-      <ul>
+      <ul  @click="goPage('/user/bind_cellphone')">
         <li>绑定手机</li>
         <li></li>
       </ul>
-      <ul>
+    <ul  @click="goPage('/user/mode_password')">
         <li>修改密码</li>
         <li></li>
       </ul>
-      <ul>
+    <ul  @click="goPage('/user/fav')">
         <li>我的收藏</li>
         <li></li>
       </ul>

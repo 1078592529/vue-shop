@@ -26,7 +26,12 @@ export default {
         delAddress(conText,payload){
             delAddressData({uid:conText.rootState.user.uid,...payload}).then(res=>{
                 if(res.code===200){
-                    conText.commit("DEL_ADDRESS",{index:payload.index});
+                    if(payload.index){
+                        conText.commit("DEL_ADDRESS",{index:payload.index});
+                    }
+                    if(payload.success){
+                        payload.success();
+                    }
                 }
             })
         },

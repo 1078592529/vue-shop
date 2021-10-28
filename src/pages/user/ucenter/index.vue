@@ -31,7 +31,7 @@
         <li>个人资料</li>
         <li></li>
       </ul>
-      <ul @click="goPage('/address')">
+      <ul @click="goPage('/user/address')">
         <li>收货地址</li>
         <li></li>
       </ul>

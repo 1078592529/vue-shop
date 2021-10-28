@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <SubHeader title="修改收货地址"></SubHeader>
+        <SubHeader title="添加收货地址"></SubHeader>
         <div class='main'>
             <ul>
                 <li>收货人</li>
@@ -24,7 +24,7 @@
                 <li>设置为默认地址</li>
                 <li><input type="checkbox" v-model="isDefault"/></li>
             </ul>
-            <button type="button" class='submit-save' @click="submit()">修改</button>
+            <button type="button" class='submit-save' @click="submit()">保存</button>
         </div>
         <van-popup v-model="isArea">
             <van-area :area-list="areaList" @cancel="isArea=false" @confirm="selectArea" />
@@ -41,7 +41,7 @@
     Vue.use(Area);
     Vue.use(Popup);
     export default {
-        name: "address-mod",
+        name: "address-add",
         data(){
             return {
                 name:"",
@@ -59,17 +59,6 @@
         created(){
             this.$utils.safeUser(this);
             this.isSubmit=true;
-            this.aid=this.$route.query.aid?this.$route.query.aid:"";
-            this.getAddressInfo({aid:this.aid,success:(res)=>{
-                    this.name=res.data.name;
-                    this.cellphone=res.data.cellphone;
-                    this.showArea=res.data.province+" "+res.data.city+" "+res.data.area;
-                    this.address=res.data.address;
-                    this.province=res.data.province;
-                    this.city=res.data.city;
-                    this.area=res.data.area;
-                    this.isDefault=res.data.isdefault==='1'?true:false;
-                }});
         },
         mounted(){
             document.title=this.$route.meta.title;
@@ -79,8 +68,7 @@
         },
         methods:{
             ...mapActions({
-                modAddress:"address/modAddress",
-                getAddressInfo:"address/getAddressInfo"
+                addAddress:"address/addAddress"
             }),
             submit(){
                 if(this.name.match(/^\s*$/)){
@@ -105,11 +93,11 @@
                 }
                 if(this.isSubmit){
                     this.isSubmit=false;
-                    this.modAddress({aid:this.aid,name:this.name,cellphone:this.cellphone,province:this.province,area:this.area,city:this.city,address:this.address,isdefault:this.isDefault?"1":"0",success:(res)=>{
+                    this.addAddress({name:this.name,cellphone:this.cellphone,province:this.province,area:this.area,city:this.city,address:this.address,isdefault:this.isDefault?"1":"0",success:(res)=>{
                             if(res.code===200){
                                 Toast({
                                     duration:2000,
-                                    message:"修改成功！",
+                                    message:"添加成功！",
                                     onClose:()=>{
                                         this.$router.go(-1);
                                     }
@@ -138,65 +126,13 @@
 </script>
 
 <style scoped>
-    .page {
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-        background-color: #FFFFFF;
-    }
-
-    .main {
-        width: 100%;
-        margin-top: 1rem;
-    }
-
-    .main ul {
-        width: 100%;
-        height: 1.02rem;
-        border-bottom: #EFEFEF 1px solid;
-        display: flex;
-        display: -webkit-flex;
-        align-items: center;
-        -webkit-align-items: center;
-    }
-
-    .main ul li {
-        font-size: 0.32rem;
-        margin-left: 0.3rem;
-    }
-
-    .main ul li:nth-child(2) {
-        width: 62%;
-        height: 100%;
-    }
-
-    .main ul li input[type='text'] {
-        width: 100%;
-        height: 95%;
-        font-size: 0.32rem;
-    }
-
-    .main ul li .area {
-        font-size: 0.28rem !important;
-    }
-
-    .main ul li input[type='checkbox'] {
-        width: 0.4rem;
-        height: 0.4rem;
-        margin-top: 0.3rem;
-    }
-
-    .main .submit-save {
-        width: 85%;
-        height: 0.8rem;
-        background-color: #FCB40A;
-        border-radius: 4px;
-        margin: 0 auto;
-        display: block;
-        border: 0 none;
-        outline: none;
-        font-size: 0.32rem;
-        color: #FFFFFF;
-        margin-top: 0.4rem;
-    }
+    .page{width:100%;height:100vh;overflow:hidden;background-color:#FFFFFF;}
+    .main{width:100%;margin-top:1rem;}
+    .main ul{width:100%;height:1.02rem;border-bottom: #EFEFEF 1px solid;display: flex;display:-webkit-flex;align-items: center;-webkit-align-items: center;}
+    .main ul li{font-size:0.32rem;margin-left:0.3rem;}
+    .main ul li:nth-child(2){width:62%;height:100%;}
+    .main ul li input[type='text']{width:100%;height:95%;font-size:0.32rem;}
+    .main ul li .area{font-size:0.28rem!important;}
+    .main ul li input[type='checkbox']{width:0.4rem;height:0.4rem;margin-top:0.3rem;}
+    .main .submit-save{width:85%;height:0.8rem;background-color:#FCB40A;border-radius: 4px;margin:0 auto;display:block;border:0 none;outline:none;font-size:0.32rem;color:#FFFFFF;margin-top:0.4rem;}
 </style>

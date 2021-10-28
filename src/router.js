@@ -165,7 +165,14 @@ let router=new Router({
         {
             path:"/user/order/add_review",
             name:"order-add-review",
-            component:()=>import("./pages/user/order/add_review")
+            component:()=>import("./pages/user/order/add_review"),
+            meta:{auth:true,title:"评价"}
+        },
+        {
+            path:"/user/profile",
+            name:"profile",
+            component:()=>import("./pages/user/profile"),
+            meta:{auth:true,title:"个人资料"}
         }
     ]
 });

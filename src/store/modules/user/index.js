@@ -6,6 +6,8 @@ import {
   isRegData,
   regUserData,
   getUserInfoData,
+  uploadHeadData,
+  updateUserInfoData
 } from "../../../api/user";
 let modules = {
   namespaced: true,
@@ -68,10 +70,12 @@ let modules = {
     },
     //安全退出
     outLogin(conText) {
-      safeOutLoginData({ uid: conText.state.uid }).then((res) => {
+      safeOutLoginData({
+        uid: conText.state.uid
+      }).then((res) => {
         // console.log(res);
       });
-      conText.rootState.cart.cartData=[];
+      conText.rootState.cart.cartData = [];
       conText.commit("OUT_LOGIN");
     },
     //会员安全认证
@@ -83,7 +87,7 @@ let modules = {
       }).then((res) => {
         // console.log(res);
         if (res.code != 200) {
-          conText.rootState.cart.cartData=[];
+          conText.rootState.cart.cartData = [];
           conText.commit("OUT_LOGIN");
         }
         if (payload.success) {
@@ -113,18 +117,39 @@ let modules = {
       });
     },
     //获取会员信息
-    getUserInfo(conText) {
-      getUserInfoData(conText.state.uid).then((res) => {
-        //console.log(res);
+    getUserInfo(conText, payload) {
+      getUserInfoData(conText.state.uid).then(res => {
         if (res.code === 200) {
           conText.commit("SET_USER_INFO", {
             head: res.data.head,
             points: res.data.points,
-            nickname: res.data.nickname,
+            nickname: res.data.nickname
           });
+          if (payload && payload.success) {
+            payload.success(res.data);
+          }
         }
-      });
+      })
     },
+    //上传头像
+    uploadHead(conText, payload) {
+      uploadHeadData(payload).then(res => {
+        if (payload.success) {
+          payload.success(res);
+        }
+      })
+    },
+    //修改会员信息
+    updateUserInfo(conText, payload) {
+      updateUserInfoData({
+        uid: conText.state.uid,
+        ...payload
+      }).then(res => {
+        if (payload.success) {
+          payload.success(res);
+        }
+      })
+    }
   },
 };
 export default modules;

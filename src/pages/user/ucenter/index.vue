@@ -27,7 +27,7 @@
             </div>
         </div>
     <div class="menu-list-wrap">
-      <ul @click="goPage('/profile')">
+        <ul @click="goPage('/user/profile')">
         <li>个人资料</li>
         <li></li>
       </ul>

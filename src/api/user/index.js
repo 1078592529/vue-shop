@@ -31,3 +31,12 @@ return request(config.baseApi+"/home/user/reg?token="+config.token,"post",data)
 export function getUserInfoData(uid){
 return request(config.baseApi+"/user/myinfo/userinfo/uid/"+uid+"?token="+config.token)
 }
+//上传头像
+export function uploadHeadData(data){
+    return request(config.baseApi+"/user/myinfo/formdatahead?token="+config.token,"file",data);
+}
+
+//修改会员信息
+export function updateUserInfoData(data){
+    return request(config.baseApi+"/user/myinfo/updateuser?token="+config.token,"post",data);
+}

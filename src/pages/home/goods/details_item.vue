@@ -28,12 +28,12 @@
             <div class='reviews-date'>{{item.times}}</div>
           </div>
         </div>
-          <div class='reviews-more' @click="$router.replace('/goods/details/review?gid='+gid)">查看更多评价</div>
+        <div class='reviews-more' @click="$router.replace('/goods/details/review?gid='+gid)">查看更多评价</div>
       </div>
       <div class="no-data" v-show="reviews.length<=0">暂无评价！</div>
     </div>
     <div class='bottom-btn-wrap'>
-      <div class='btn fav'>收藏</div>
+      <div class='btn fav' @click="addFav()">收藏</div>
       <div class='btn cart' @click="showPanel()">加入购物车</div>
     </div>
     <div class='mask' v-show="isPanel" @click="hidePanel()"></div>
@@ -96,7 +96,7 @@ export default {
       success: () => {
         this.$nextTick(() => {
           //console.log(this.details.title)
-          document.title=this.details.title;
+          document.title = this.details.title;
           new Swiper(this.$refs["swpier-wrap"], {
             autoplay: 3000,
             pagination: this.$refs["swiper-pagination"],
@@ -122,18 +122,20 @@ export default {
       details: (state) => state.goods.details,
       total: (state) => state.goodsReview.total,
       reviews: (state) => state.goodsReview.reviews,
+      isLogin: (state) => state.user.isLogin,
     }),
   },
   mounted() {},
   methods: {
     ...mapMutations({
       SELECT_ATTR: "goods/SELECT_ATTR",
-      ADD_ITEM:"cart/ADD_ITEM"
+      ADD_ITEM: "cart/ADD_ITEM",
     }),
     ...mapActions({
       getDetails: "goods/getDetails",
       getSpec: "goods/getSpec",
       getReviews: "goodsReview/getReviews",
+      joinFav: "goods/addFav",
     }),
     //显示属性面板
     showPanel() {
@@ -203,7 +205,7 @@ export default {
               param = [];
             if (this.attrs.length > 0) {
               for (let i = 0; i < this.attrs.length; i++) {
-                param=[];
+                param = [];
                 for (let j = 0; j < this.attrs[i].values.length; j++) {
                   if (this.attrs[i].values[j].active) {
                     param.push({
@@ -229,11 +231,24 @@ export default {
               freight: this.details.freight,
               attrs: attrs,
             };
-            this.ADD_ITEM({cartData:cartData});
+            this.ADD_ITEM({ cartData: cartData });
             //console.log(cartData);
           },
         });
         TweenMax.to(cloneImg, 0.2, { rotation: 360, repeat: -1 });
+      }
+    },
+    //我的收藏
+    addFav() {
+      if (this.isLogin) {
+        this.joinFav({
+          gid: this.gid,
+          success: (res) => {
+            Toast(res.data);
+          },
+        });
+      }else{
+        Toast("请登录")
       }
     },
   },

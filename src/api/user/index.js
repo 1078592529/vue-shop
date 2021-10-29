@@ -48,3 +48,12 @@ export function updateCellphoneData(data){
 export function updatePasswordData(data){
 return request(config.baseApi+"/user/myinfo/modpwd?token="+config.token,"post",data)
 }
+//我的收藏
+export function getFavData(data){
+    return request(config.baseApi+"/user/fav/index?uid="+data.uid+"&token="+config.token+"&page="+data.page+"");
+}
+
+//删除收藏
+export function delFavData(data){
+    return request(config.baseApi+"/user/fav/del?uid="+data.uid+"&fid="+data.fid+"&token="+config.token);
+}
